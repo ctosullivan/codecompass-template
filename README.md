@@ -41,6 +41,20 @@ repositories relate.
   - `context-gaps/` — a log of places where you notice CodeCompass's (or
     any tool's) context is missing or wrong, kept separate from "how we
     work" observations so the two don't get mixed together.
+  - `knowledge/assertions/`, `knowledge/snapshots/`,
+    `knowledge/coding-context-selection/`, `knowledge/implementation-comparison/`,
+    `knowledge/propagation/`, `knowledge/legacy-reconciliation/`,
+    `knowledge/documentation-verification/` — templates for a heavier-
+    weight, optional workflow: building evidence-backed conceptual
+    understanding of your own project independently of its existing
+    narrative documentation, freezing it into a versioned snapshot, and
+    checking it against both an independent implementation review and
+    real documentation/coding-context usefulness. See
+    `docs/conceptual-documentation-guide.md` and
+    `docs/mechanical-isolation.md` for how the pieces fit together, and
+    when the isolation this workflow relies on is genuinely achievable
+    versus best-effort. Most projects won't need this until documentation
+    drift or onboarding cost becomes a real, recurring problem.
 
 ## Adopting this template
 
