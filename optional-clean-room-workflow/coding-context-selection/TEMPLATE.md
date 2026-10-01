@@ -18,7 +18,7 @@ question with a code-level answer, a real bug. Bound it enough that
 `<topic-slug>@v<N>` — the exact frozen version this packet was assembled
 from. If the live knowledge base has moved past this version since, that
 divergence is expected and informational (see
-`planning/knowledge/snapshots/TEMPLATE.md`) — it doesn't invalidate this
+`optional-clean-room-workflow/snapshots/TEMPLATE.md`) — it doesn't invalidate this
 packet, but note the version explicitly so staleness is checkable later.
 
 ## Assertions included, and why each one

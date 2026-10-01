@@ -29,20 +29,3 @@ over an alternative, what it's specifically used for.
 Significant, non-obvious tradeoffs belong in `decisions/` (one file per
 decision, see `decisions/README.md`), not duplicated here. Link to the
 relevant ones if it helps a reader.
-
----
-
-## On this repository's relationship to CodeCompass
-
-This template is maintained alongside
-[CodeCompass](https://github.com/ctosullivan/codecompass) but is a
-separate, MIT-licensed repository — not a redistribution of
-CodeCompass's own GPL-3.0-or-later source or documentation. Nothing in
-this template's own text is copied from CodeCompass's; the *shape* of
-the working conventions it packages (plan before you code, keep docs in
-sync, a running context file, a lightweight learnings log) reflects
-general, widely-used development practice, freely reusable regardless
-of what license governs the tool that happens to consume `vendor.toml`.
-A project using this template may itself be licensed however its own
-owner chooses — GPL, a permissive license, or kept entirely proprietary
-— independent of both CodeCompass's license and this template's own.

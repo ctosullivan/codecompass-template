@@ -26,7 +26,7 @@ fix the actual published documentation, don't just log the finding.
 Separately, if this documentation is meant to help with real
 implementation work (not just to explain the system to a reader), check
 whether it actually helps with a real coding task — see
-`planning/knowledge/coding-context-selection/TEMPLATE.md` for how that
+`optional-clean-room-workflow/coding-context-selection/TEMPLATE.md` for how that
 packet is assembled and independently rated.
 
 ## Record

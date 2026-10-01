@@ -1,7 +1,7 @@
 # Writing conceptual documentation from a knowledge snapshot
 
 This guide is for the step where you turn a frozen snapshot of
-reviewed assertions (`planning/knowledge/snapshots/TEMPLATE.md`) into
+reviewed assertions (`optional-clean-room-workflow/snapshots/TEMPLATE.md`) into
 documentation a person will actually read. It's not a format spec — it's
 the judgment calls that matter when you make that jump.
 
@@ -30,7 +30,7 @@ honest fit than reusing whatever structure worked last time.
 Write the complete first version from the snapshot alone, and commit
 it, before touching whatever legacy documentation already existed on
 this topic. Reconciliation is a separate, deliberate step (see
-`planning/knowledge/legacy-reconciliation/TEMPLATE.md`) — folding it into
+`optional-clean-room-workflow/legacy-reconciliation/TEMPLATE.md`) — folding it into
 the first draft risks quietly re-importing an old framing the evidence
 no longer supports, just because it was sitting there already.
 

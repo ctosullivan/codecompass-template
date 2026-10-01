@@ -4,7 +4,7 @@ Once a fresh documentation draft has been written from a knowledge
 snapshot and **committed on its own**, reconcile it against whatever
 narrative documentation already existed on this topic before the
 reconstruction. Do this as a genuinely separate, later step — not folded
-into the first draft (see `docs/conceptual-documentation-guide.md`) —
+into the first draft (see `optional-clean-room-workflow/conceptual-documentation-guide.md`) —
 so the fresh draft's own framing isn't quietly displaced by the old
 narrative's framing before anyone's had a chance to compare them
 deliberately.

@@ -11,9 +11,18 @@ and designed to be adopted by projects under any license — GPL,
 permissive, or proprietary/internal. It is maintained alongside
 CodeCompass (which is itself GPL-3.0-or-later) but is not a
 redistribution of CodeCompass's own source or documentation; nothing in
-this repository is copied from CodeCompass's own text. See
-[`docs/architecture.md`](docs/architecture.md) for more on how the two
-repositories relate.
+this repository is copied from CodeCompass's own text. The *shape* of
+the working conventions it packages (plan before you code, keep docs in
+sync, a running context file, a lightweight learnings log) reflects
+general, widely-used development practice, freely reusable regardless of
+what license governs the tool that happens to consume `vendor.toml`. A
+project using this template may itself be licensed however its own
+owner chooses — GPL, a permissive license, or kept entirely proprietary
+— independent of both CodeCompass's license and this template's own.
+This note describes *this template repository itself* — it is
+deliberately not duplicated into `docs/architecture.md`, since that file
+is copied into your own project and should describe only your project,
+never this template.
 
 ## What's here
 
@@ -24,6 +33,9 @@ repositories relate.
   empty; CodeCompass can populate it for you (see below).
 - `docs/architecture.md` — a skeleton for describing your own project's
   current architecture, to be filled in as the project takes shape.
+- `docs/worked-example.md` — a short, concrete walkthrough of
+  `CLAUDE.md`'s six conventions against one trivial invented change, for
+  pattern-matching against before you try the real thing.
 - `decisions/` — a place for append-only architecture decision records
   (ADRs), one file per significant decision, numbered sequentially. See
   `decisions/README.md`.
@@ -41,37 +53,54 @@ repositories relate.
   - `context-gaps/` — a log of places where you notice CodeCompass's (or
     any tool's) context is missing or wrong, kept separate from "how we
     work" observations so the two don't get mixed together.
-  - `knowledge/assertions/`, `knowledge/snapshots/`,
-    `knowledge/coding-context-selection/`, `knowledge/implementation-comparison/`,
-    `knowledge/propagation/`, `knowledge/legacy-reconciliation/`,
-    `knowledge/documentation-verification/` — templates for a heavier-
-    weight, optional workflow: building evidence-backed conceptual
-    understanding of your own project independently of its existing
-    narrative documentation, freezing it into a versioned snapshot, and
-    checking it against both an independent implementation review and
-    real documentation/coding-context usefulness. See
-    `docs/conceptual-documentation-guide.md` and
-    `docs/mechanical-isolation.md` for how the pieces fit together, and
-    when the isolation this workflow relies on is genuinely achievable
-    versus best-effort. Most projects won't need this until documentation
-    drift or onboarding cost becomes a real, recurring problem.
+- `optional-clean-room-workflow/` — **not part of the everyday adoption
+  path; do not copy this directory unless you've read its own `README.md`
+  and decided you actually need it.** A heavier, optional workflow for
+  building evidence-backed conceptual understanding of your own project
+  independently of its existing narrative documentation, freezing it
+  into a versioned snapshot, and checking it against both an independent
+  implementation review and real documentation/coding-context
+  usefulness, including a short worked example. Most projects won't need
+  this until documentation drift or onboarding cost becomes a real,
+  recurring problem — and unlike everything else in this list, it lives
+  entirely outside `planning/` and `docs/` specifically so adopting the
+  everyday path never drags it in by accident.
 
 ## Adopting this template
 
-1. Use this repository as a template for your own new project (or copy
-   its contents into an existing one). **If you're copying into an
-   existing project, don't blindly overwrite two files**: this
-   repository's own `README.md` describes the *template*, not your
-   project — copying it over your project's existing `README.md` would
-   replace your project's own identity with a description of this
-   template instead (fold in whatever parts of "What's here" are useful
-   to your own readers, don't copy the file verbatim); and `LICENSE` is a
-   real per-project choice this template won't make for you — only copy
-   it if you actually intend your project to be MIT-licensed.
+1. **Starting a new project**: use this repository as a GitHub template,
+   then **replace this file's own content** with a description of your
+   actual project — a new repository seeded from this template inherits
+   this very `README.md` by construction, and it describes the template,
+   not your project (fold in whatever parts of "What's here" are useful
+   to your own readers; don't leave this text in place). **Adding to an
+   existing project**: copy in whatever you want from "What's here"
+   above. Either way, **three files need care, not a blind copy**:
+   - `README.md` — never copy this file's own content over an existing
+     project's README; write your own (see above).
+   - `LICENSE` — a real per-project choice this template won't make for
+     you. Only copy it if you actually intend your project to be
+     MIT-licensed.
+   - `CLAUDE.md` — if your project already has one with real rules in
+     it, don't overwrite it either. Keep your existing rules (verbatim,
+     under their own heading), append this template's conventions below
+     them, and only call out an explicit reconciliation where the two
+     genuinely conflict (most of the time they won't — "write a short
+     plan first" and "squash-merge your PRs," for instance, aren't in
+     tension and don't need one). A brand-new project with no existing
+     `CLAUDE.md` can simply copy this template's version as-is.
 2. Install CodeCompass (`pip install codecompass-context`, or however
-   your own project's ecosystem prefers) and run it once — `codecompass`
-   with no arguments will discover your project's actual dependencies
-   and offer to populate `vendor.toml` for you.
+   your own project's ecosystem prefers) and run it once — bare
+   `codecompass` will discover your project's actual dependencies (from
+   `package.json`, `pyproject.toml`, `Cargo.toml`, `package.yaml`, etc.)
+   and offer to populate `vendor.toml` for you. **If your project has no
+   dependency manifest yet** (a very early-stage project, or one with no
+   third-party dependencies), there's simply nothing to discover yet —
+   that's fine, not an error; this step becomes useful once you have
+   something to track. **If you don't have network access** to install
+   or run CodeCompass right now, leave `vendor.toml` empty exactly as
+   shipped and note the commands above as a next step in
+   `planning/CONTEXT.md` rather than guessing at what they'd produce.
 3. Run `codecompass sync` whenever your dependencies or first-party
    source change. This produces a local `context-graph.db` and, for each
    tracked dependency, a `vendor/<name>/` reference digest — neither is

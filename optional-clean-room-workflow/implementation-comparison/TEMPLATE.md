@@ -2,7 +2,7 @@
 
 Compares a frozen knowledge snapshot against an independent,
 implementation-only reconstruction of the same topic (see
-`docs/mechanical-isolation.md` for how that reconstruction should have
+`optional-clean-room-workflow/mechanical-isolation.md` for how that reconstruction should have
 been produced — model-blind, no access to this snapshot at the time it
 was written). This comparison happens strictly *after* both sides exist,
 performed by whoever (or whatever) did neither the original research nor
