@@ -59,7 +59,15 @@ repositories relate.
 ## Adopting this template
 
 1. Use this repository as a template for your own new project (or copy
-   its contents into an existing one).
+   its contents into an existing one). **If you're copying into an
+   existing project, don't blindly overwrite two files**: this
+   repository's own `README.md` describes the *template*, not your
+   project — copying it over your project's existing `README.md` would
+   replace your project's own identity with a description of this
+   template instead (fold in whatever parts of "What's here" are useful
+   to your own readers, don't copy the file verbatim); and `LICENSE` is a
+   real per-project choice this template won't make for you — only copy
+   it if you actually intend your project to be MIT-licensed.
 2. Install CodeCompass (`pip install codecompass-context`, or however
    your own project's ecosystem prefers) and run it once — `codecompass`
    with no arguments will discover your project's actual dependencies
