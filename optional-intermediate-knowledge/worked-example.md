@@ -61,12 +61,33 @@ A 429 (rate limited) response is also never retried today, even though
 it arguably should be -- worth a follow-up decision.
 ```
 
+Plain prose like this — no `Type:` header — stays an **unclassified
+Claim**. If instead the team wanted to assert this as a deliberate
+policy going forward (not just an observation about current behaviour),
+they would write:
+
+```
+Type: Intent
+A 429 (rate limited) response should also never be retried, on the same
+reasoning as a 4xx.
+```
+
+...which becomes a Claim with `basis: proposed_policy` once applied — the
+`Type: Intent` header itself is stripped and never leaks into the
+record's own `statement` field. And if the team already had an approved
+`DEC-RETRY-002` authorising a specific, testable rule, they could instead
+write a `Type: Requirement` block (`Decision:`/`Statement:`/`Example:`
+lines) to get a real Requirement rather than a Claim — merely mentioning
+`DEC-RETRY-002` in prose would not be enough on its own.
+
 ## 4. `codecompass knowledge select-candidates retry-policy`
 
 Writes a manifest entry proposing a new Claim from that text, at
 `status: proposed` — **not** an Observation, and not yet confirmed,
 since no one has actually verified this against the real client code
-through this mechanism yet.
+through this mechanism yet. This step only ever reads; nothing canonical
+changes yet, and running it again before anyone reviews the manifest just
+reports the same pending candidate.
 
 ## 5. Review
 
@@ -86,3 +107,14 @@ follows.
 
 The projection now shows both claims — nothing was lost, nothing was
 silently trusted.
+
+## Idempotency and concurrency, briefly
+
+Running `apply` on this same manifest a second time is a safe no-op — it
+recognises its own prior success and does nothing further. Running
+`select-candidates` again after step 3 but before step 6 would keep
+reporting the same pending candidate, not silently drop it or duplicate
+it. And if someone had changed the candidate text (or deleted it) in the
+live projection between steps 4 and 6, `apply` would refuse rather than
+guess — a stale manifest is never quietly treated as either "already
+done" or "fine to apply anyway."
