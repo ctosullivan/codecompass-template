@@ -65,6 +65,15 @@ never this template.
   recurring problem — and unlike everything else in this list, it lives
   entirely outside `planning/` and `docs/` specifically so adopting the
   everyday path never drags it in by accident.
+- `optional-intermediate-knowledge/` — **not part of the everyday
+  adoption path; separate from, and not a replacement for, the plain
+  `planning/knowledge/` lessons log above.** Describes `codecompass`'s
+  own shipped, optional capability for projecting a more structured
+  knowledge record set into editable Markdown and reconciling human/AI
+  tool edits back into it safely (never fabricating confirmation, never
+  losing a concurrent edit). Most projects are well served by the plain
+  lessons log instead; reach for this only once that's genuinely not
+  enough.
 
 ## Adopting this template
 
