@@ -1,71 +1,50 @@
-# Worked example: one topic through the whole loop
+# Worked example: writing one assertion
 
-A short, invented, deliberately trivial walkthrough — a toy
-`next_id(items)` function that computes `max(id for id in items) + 1` (or
-`1` if `items` is empty) — to show the shape of each stage's real output,
-not the full rigor a real topic deserves. Use this to pattern-match
-against, not to copy verbatim.
+A short, honest walkthrough of adopting the lightest piece of this
+workflow — not the whole pipeline.
 
-## 1. Assertion (`assertions/TEMPLATE.md`'s shape, filled in)
+## The situation
 
-```
-Statement: next_id computes max(current ids) + 1, or 1 if empty — a
-function of the CURRENTLY PRESENT ids only, with no memory of ids used
-in the past. Consequence: deleting the item holding the current maximum
-id, then calling next_id again, reuses that id — even while other,
-older items are still present.
+Say you've established, by reading the code, that your payment client's
+retry logic treats a specific error code as retryable when it shouldn't
+be — a real, specific fact about the implementation, not a decision
+you're making.
 
-Evidence: direct execution against the real function, three sequences
-(delete a non-max id; delete the current-max id; empty the list
-entirely).
+## What you actually do
 
-Status: verified.
-```
+1. Copy `assertions/TEMPLATE.md` to a new file with a stable id, e.g.
+   `payment-retry-003.md`.
+2. **Statement**: "Error code `E_TIMEOUT_UPSTREAM` is treated as
+   retryable by the payment client's retry logic, even though it
+   indicates a non-idempotent partial failure."
+3. **Kind**: `observed_behaviour` — you watched the real system do this,
+   as opposed to a rule someone stated.
+4. **Basis**: `observed_behaviour`.
+5. **Evidence**: the exact file and line range of the retry predicate,
+   plus the specific test (or lack of one) that would have caught this.
+   A citation that doesn't resolve to something real is a defect in the
+   record, per the template — so this has to be checkable, not vague.
+6. **Justification**: one or two sentences connecting that evidence to
+   the claim.
+7. **Counterexamples**: did you check for cases where this *doesn't*
+   hold? If you looked and found none, say so explicitly — an empty list
+   here means "checked," not "skipped."
+8. **Evidence-support state**: `supported` — qualitative, not a
+   percentage.
+9. **Status**: `proposed` to start, or `supported` if you're confident
+   in the evidence as written. Not `verified` — per the template's own
+   note, that status is reserved for a later, separate, deliberate check
+   against primary evidence, which this single record doesn't do by
+   itself.
 
-## 2. Snapshot (`snapshots/TEMPLATE.md`'s shape, filled in)
+## Where it's honest to stop
 
-A frozen, versioned citation of the assertion above plus its evidence,
-each entry recording the exact file path, commit/revision, and a content
-hash — so the snapshot can later be checked against tampering (did the
-cited file's content at that revision really say this) versus legitimate
-drift (has the live file moved on since). `next-id-behavior@v1`.
-
-## 3. Independent reconstruction (no access to the assertion above)
-
-A fresh pass, given only the real source and tests — never the
-assertion or snapshot — reconstructs what `next_id` actually does,
-purely from running it and reading it. If it has no access to steps 1-2
-at all, its own account of the function's behavior is an independent
-check, not a restatement.
-
-## 4. Comparison
-
-Does the independent reconstruction's account agree with what the
-snapshot asserts? Here: yes — both land on "one more than the current
-max, or 1." Agreement confirms the *current implementation* matches the
-assertion; it does not, by itself, upgrade the assertion's own
-confidence as a general rule (see `mechanical-isolation.md` and
-`conceptual-documentation-guide.md`'s own point about this).
-
-## 5. Documentation draft (written from the snapshot, before looking at any existing docs on this topic)
-
-> `next_id` is not a stable, never-reused identifier. It computes one
-> more than the current maximum id present in the list. Deleting the
-> item that holds the current maximum id, then adding a new one, reuses
-> that id — this isn't limited to the case where the list becomes
-> completely empty.
-
-## 6. Reconciliation (now compare against whatever existing docs already said)
-
-If an existing doc claimed "ids are never reused" — this is where that
-gets corrected, with the old claim's own text preserved and a dated
-correction added, not silently rewritten.
-
-## What this example deliberately skips
-
-Real adversarial review, a genuine isolation check (was the
-reconstruction pass in step 3 actually unable to see steps 1-2, or just
-instructed not to look), and the coding-context-packet usefulness check
-— all real, necessary parts of doing this for real, left out here only
-because this example's job is to show the *shape* of the six stages in
-one page, not to be a complete specification.
+That's a complete, useful artifact on its own. Freezing it into a
+`snapshots/` bundle, building a `coding-context-selection/` packet from
+it, running it through `implementation-comparison/` against an
+independently-reconstructed version, or standing up the mechanical
+isolation described in `mechanical-isolation.md` — all of that is real,
+specified, and available in this workflow, but none of it is required
+to get value from writing assertions like this one. Adopt further
+pieces only when the verification they provide is actually worth their
+real cost.

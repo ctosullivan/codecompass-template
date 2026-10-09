@@ -1,66 +1,61 @@
-# Optional: clean-room conceptual understanding + documentation workflow
+# Optional: clean-room documentation workflow
 
-**This directory is not part of the everyday adoption path.** The rest
-of this template (`CLAUDE.md`, `docs/architecture.md`, `decisions/`,
-`planning/ROADMAP.md`, `planning/CONTEXT.md`, `planning/retros/`,
-`planning/knowledge/README.md`, `planning/context-gaps/`) is everything
-most projects need — plan, implement, verify, keep a short retro and a
-learnings log. If that's all you need, **don't copy this directory at
-all.** Nothing else in this template refers to it or depends on it.
+A heavier, opt-in add-on for projects that want their documentation and
+internal knowledge base to be **evidence-backed and independently
+checked**, rather than trusted on the author's word.
 
-## What this is, and when it earns its weight
+## The pieces, and how they fit together
 
-A heavier, optional workflow for the specific moment when documentation
-drift or onboarding cost has become a real, recurring problem — not a
-general-purpose upgrade to "do more process." It builds evidence-backed
-conceptual understanding of your own project independently of whatever
-narrative documentation already exists, freezes that understanding into
-a versioned, hash-checked snapshot, and checks it two ways: against an
-independent, code-only reconstruction of what the system actually does,
-and against real usefulness (a documentation reader test, a bounded
-coding-context packet test) — rather than trusting either the existing
-docs or a single unverified rewrite.
+1. **`assertions/`** — one record per established fact about your
+   project's subject matter (a definition, a rule, an invariant, a
+   boundary), each with a required evidence citation, a `basis`
+   classification (directly stated / inferred / proposed policy /
+   observed behaviour), and a status lifecycle that distinguishes
+   `supported` from the much higher bar of `verified`.
+2. **`snapshots/`** — once a set of assertions is reviewed, freeze them
+   into a versioned, hash-checked TOML bundle for one topic. Everything
+   downstream cites the frozen snapshot, not the live, still-changing
+   assertions — so "the doc said X, and X was true when this was
+   written" stays a checkable claim even after the knowledge base moves
+   on.
+3. **`coding-context-selection/`** — a task-scoped packet assembled from
+   one snapshot, deliberately narrow: only the assertions a specific
+   bounded coding task actually needs, with what was left out recorded
+   explicitly.
+4. **`documentation-verification/`** — a published doc gets checked two
+   separate ways: a reader with no other access answers real questions
+   from the doc alone, and those answers get checked against the real
+   system; separately, if the doc is meant to help with coding, it gets
+   checked for whether it actually gives a coding-task advantage.
+5. **`implementation-comparison/`** — a frozen snapshot is compared,
+   assertion by assertion, against an **independent** reconstruction of
+   the same topic built from the implementation alone — see
+   `mechanical-isolation.md` for how that reconstruction has to be kept
+   genuinely isolated from the snapshot for this comparison to mean
+   anything. Critically: agreement alone never promotes an assertion to
+   `verified` — that needs a separate, assertion-specific check.
+6. **`legacy-reconciliation/`** — once a fresh draft exists from a
+   snapshot, old pre-existing narrative docs get reconciled against it
+   claim by claim, as a genuinely separate later step, not folded into
+   the first draft.
+7. **`propagation/`** — a disposable-fixture demonstration that a change
+   to a real *source* actually gets discovered and propagates all the
+   way through evidence → assertions → dependents → snapshots → both
+   documentation and coding-context packets, including correct handling
+   of a dependency cycle.
 
-Reach for this when:
+## Why "clean room"
 
-- A project has grown enough history that "why was it built this way"
-  routinely costs more to rediscover than it would have cost to write
-  down once, verified.
-- Existing documentation and the real implementation have drifted apart
-  enough that neither a new contributor nor a coding agent can fully
-  trust it.
-- You want a mechanical, citable trail from a published claim back to
-  the specific evidence it rests on — not just "someone wrote this at
-  some point."
+The comparison in step 5 only means something if the reconstruction
+being compared against wasn't written with access to the thing it's
+being compared against — otherwise you're just checking a document
+against itself. `mechanical-isolation.md` describes the real, verified
+mechanism for enforcing that separation, and its one real limitation.
 
-Most projects, most of the time, don't need this yet. Adopting it
-reflexively just because it exists re-creates exactly the clutter this
-template's own everyday path is designed to avoid.
+## Adopting this incrementally
 
-## How to adopt it, if you decide you need it
-
-1. Copy this whole directory into your project as its own top-level
-   folder (keep the name, or rename it — nothing elsewhere references
-   the path).
-2. Read `conceptual-documentation-guide.md` and `mechanical-isolation.md`
-   first — they're the judgment-call guides, not format specs.
-3. See `worked-example.md` for one short, concrete walkthrough of the
-   whole loop (research → assertion → snapshot → independent
-   reconstruction → comparison → documentation draft → reconciliation)
-   against a trivial, invented function, before you try it on something
-   real.
-4. The seven `TEMPLATE.md` files (`assertions/`, `snapshots/`,
-   `coding-context-selection/`, `implementation-comparison/`,
-   `propagation/`, `legacy-reconciliation/`, `documentation-verification/`)
-   are format skeletons for each stage's own output — fill in what each
-   stage actually needs, not all seven at once; most topics won't need
-   every stage on day one.
-
-## What this deliberately does not include
-
-Detailed evidence, drafts, and audit records produced by actually
-*running* this workflow (a filled-in assertion, a frozen snapshot, a
-comparison report) belong in your own project's own working directories
-once you start — this directory ships only empty format skeletons and
-guidance, never worked output of someone else's project, so there is
-nothing here to accidentally treat as your own project's real evidence.
+Nothing requires adopting all seven pieces at once. `assertions/` alone,
+with evidence citations, is already more rigor than most projects have.
+The independent-reconstruction and mechanical-isolation machinery is
+the heaviest part of this workflow and is reasonable to defer — or skip
+— for a project that doesn't need that level of verification.
